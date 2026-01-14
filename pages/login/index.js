@@ -150,7 +150,7 @@ export default function Login() {
                 {loading ? (
                   <>
                     <span className="spinner-border spinner-border-sm me-2"></span>
-                    Signing in...
+                    Signing in....
                   </>
                 ) : (
                   "Sign In"
