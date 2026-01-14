@@ -1,3 +1,4 @@
+// pages/register/index.js
 import { useState } from "react";
 import { useRouter } from "next/router";
 import Head from "next/head";
@@ -74,25 +75,29 @@ export default function Register() {
       <div
         className="min-vh-100 d-flex align-items-center justify-content-center px-3 py-5"
         style={{
-          background: "url('/bg.jpg') center/cover no-repeat fixed;",
+          backgroundImage: `url('/bg.jpg')`,
+          backgroundSize: 'cover',
+          backgroundPosition: 'center',
+          backgroundRepeat: 'no-repeat',
+          backgroundAttachment: 'fixed',
         }}
       >
         <div className="w-100" style={{ maxWidth: "420px" }}>
           <div
-            className="rounded-4 shadow-xl overflow-hidden border-0"
+            className="rounded-4 shadow-lg overflow-hidden border-0"
             style={{
-              background: "rgba(20, 20, 50, 0.28)",
-              backdropFilter: "blur(32px) saturate(240%)",
-              WebkitBackdropFilter: "blur(32px) saturate(240%)",
-              border: "1px solid rgba(150, 150, 255, 0.15)",
-              boxShadow: "0 25px 80px rgba(0,0,0,0.75)",
+              background: "rgba(20, 20, 50, 0.38)",
+              backdropFilter: "blur(28px) saturate(220%)",
+              WebkitBackdropFilter: "blur(28px) saturate(220%)",
+              border: "1px solid rgba(140, 140, 255, 0.18)",
+              boxShadow: "0 20px 70px rgba(0,0,0,0.75)",
             }}
           >
-            <div className="p-4 p-md-5">
+            <div className="p-5">
               <h3
                 className="text-center fw-bold mb-4"
                 style={{
-                  background: "linear-gradient(90deg, #e0e0ff, #c0c0ff)",
+                  background: "linear-gradient(90deg, #e0e0ff, #ffffff)",
                   WebkitBackgroundClip: "text",
                   WebkitTextFillColor: "transparent",
                   fontSize: "2rem",
@@ -115,8 +120,8 @@ export default function Register() {
                   value={email}
                   onChange={(e) => setEmail(e.target.value)}
                   style={{
-                    background: "rgba(40,40,70,0.55)",
-                    border: "1px solid rgba(130,130,255,0.35)",
+                    background: "rgba(40,40,70,0.6)",
+                    border: "1px solid rgba(130,130,255,0.4)",
                     height: "52px",
                   }}
                 />
@@ -130,8 +135,8 @@ export default function Register() {
                   value={password}
                   onChange={(e) => setPassword(e.target.value)}
                   style={{
-                    background: "rgba(40,40,70,0.55)",
-                    border: "1px solid rgba(130,130,255,0.35)",
+                    background: "rgba(40,40,70,0.6)",
+                    border: "1px solid rgba(130,130,255,0.4)",
                     height: "52px",
                   }}
                 />

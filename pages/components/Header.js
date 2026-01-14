@@ -1,9 +1,26 @@
 // pages/components/Header.js
 
+import { useState, useEffect } from 'react';
+import { useRouter } from 'next/router';
+
 export default function Header() {
+  const router = useRouter();
+  const [isLoggedIn, setIsLoggedIn] = useState(false);
+
+  useEffect(() => {
+    const user = localStorage.getItem('user');
+    setIsLoggedIn(!!user);
+  }, []);
+
+  const handleLogout = () => {
+    localStorage.removeItem('user');
+    setIsLoggedIn(false);
+    router.push('/login');
+  };
+
   return (
     <>
-      {/* Load Bootstrap & Font Awesome only once */}
+      {/* Bootstrap 5 & Font Awesome */}
       <link
         href="https://cdn.jsdelivr.net/npm/bootstrap@5.3.3/dist/css/bootstrap.min.css"
         rel="stylesheet"
@@ -13,71 +30,76 @@ export default function Header() {
       <link
         rel="stylesheet"
         href="https://cdnjs.cloudflare.com/ajax/libs/font-awesome/6.5.2/css/all.min.css"
-        integrity="sha512-SnH5WK+bZxgPHs44uWIX+LLJAJ9/2PkPKZ5QiAj6Ta86w+fsb2TkcmfRyVX3pBnMFcV7oQPJkl9QevSCWr3W6A=="
-        crossOrigin="anonymous"
-        referrerPolicy="no-referrer"
       />
 
-      <nav
-        className="navbar navbar-expand-lg navbar-dark bg-black shadow-sm"
-        style={{
-          backgroundColor: "#000",
-          borderBottom: "1px solid #282828",
-          padding: "0.8rem 1.5rem",
-          position: "sticky",
-          top: 0,
-          zIndex: 1000,
-        }}
-      >
-        <div className="container-fluid">
-          {/* Logo + Home */}
-          <div className="d-flex align-items-center gap-4">
-            <a href="#" className="spotify-logo text-success fs-1">
+      <nav className="navbar navbar-expand-lg bg-black navbar-dark shadow-sm sticky-top">
+        <div className="container-fluid px-3 px-md-4">
+          {/* Logo + Home Icon */}
+          <div className="d-flex align-items-center gap-3 gap-md-4">
+            <a href="/" className="spotify-logo fs-2 fs-md-1 text-success">
               <i className="fab fa-spotify"></i>
             </a>
-
-            <a href="#" className="home-icon text-white fs-4">
+            <a href="/" className="text-white fs-4">
               <i className="fas fa-home"></i>
             </a>
           </div>
 
-          {/* Search Bar - Collapses on mobile */}
-          <div className="search-container mx-auto d-none d-lg-flex align-items-center">
-            <div className="searchbar d-flex align-items-center bg-dark rounded-pill px-4 py-2">
+          {/* Search Bar (desktop only) */}
+          <div className="search-container mx-4 flex-grow-1 d-none d-lg-flex justify-content-center">
+            <div
+              className="d-flex align-items-center bg-dark rounded-pill px-4 py-2 w-100"
+              style={{ maxWidth: '600px', backdropFilter: 'blur(8px)' }}
+            >
               <i className="fas fa-search text-secondary me-3"></i>
-              <span className="text-secondary me-4">What do you want to play?</span>
-              <span className="text-secondary">|</span>
-              <i className="fas fa-window-maximize text-secondary ms-3"></i>
+              <span className="text-secondary flex-grow-1">What do you want to play?</span>
+              <span className="text-secondary mx-3">|</span>
+              <i className="fas fa-window-maximize text-secondary"></i>
             </div>
           </div>
 
-          {/* Right side links & Install */}
-          <div className="d-flex align-items-center gap-4 ms-auto">
-            <a href="#" className="nav-link premium-link text-secondary fw-medium">
+          {/* Right Side Links + Logout */}
+          <div className="d-flex align-items-center gap-3 gap-md-4 ms-auto">
+            <a href="#" className="nav-link text-secondary fw-medium d-none d-md-block hover-link">
               Premium
             </a>
-            <a href="#" className="nav-link text-secondary fw-medium">
+            <a href="#" className="nav-link text-secondary fw-medium d-none d-md-block hover-link">
               Support
             </a>
-            <a href="#" className="nav-link text-secondary fw-medium">
+            <a href="#" className="nav-link text-secondary fw-medium d-none d-md-block hover-link">
               Download
             </a>
 
-            <span className="text-white fs-5 mx-2">|</span>
+            <span className="text-white d-none d-md-block">|</span>
 
-            <a href="#" className="install-app d-flex align-items-center text-secondary fw-medium">
+            <a
+              href="#"
+              className="d-flex align-items-center text-secondary fw-medium hover-link"
+            >
               <i className="far fa-circle-down me-2"></i>
-              Install app
+              <span className="d-none d-md-inline">Install app</span>
             </a>
 
-            <a href="/register" className="signup-link text-white fw-medium px-4 py-2 rounded-pill signup-btn">
-              Sign up
-            </a>
+            {/* Conditional Button */}
+            {isLoggedIn ? (
+              <button
+                className="btn btn-outline-light rounded-pill px-3 px-md-4 py-2 fw-medium"
+                onClick={handleLogout}
+              >
+                Logout
+              </button>
+            ) : (
+              <a
+                href="/login"
+                className="btn btn-outline-light rounded-pill px-3 px-md-4 py-2 fw-medium"
+              >
+                Log in
+              </a>
+            )}
           </div>
 
-          {/* Mobile toggle (hamburger) */}
+          {/* Mobile Burger */}
           <button
-            className="navbar-toggler ms-3"
+            className="navbar-toggler ms-2"
             type="button"
             data-bs-toggle="collapse"
             data-bs-target="#navbarContent"
@@ -88,83 +110,92 @@ export default function Header() {
             <span className="navbar-toggler-icon"></span>
           </button>
 
-          {/* Collapsible content for mobile */}
+          {/* Mobile Collapsed Menu */}
           <div className="collapse navbar-collapse" id="navbarContent">
-            <div className="d-lg-none mt-4">
-              {/* Search bar on mobile */}
-              <div className="searchbar d-flex align-items-center bg-dark rounded-pill px-4 py-2 mb-4">
+            <div className="d-lg-none mt-4 pb-3">
+              {/* Mobile Search */}
+              <div className="searchbar d-flex align-items-center bg-dark rounded-pill px-4 py-3 mb-4">
                 <i className="fas fa-search text-secondary me-3"></i>
                 <span className="text-secondary flex-grow-1">What do you want to play?</span>
                 <i className="fas fa-window-maximize text-secondary ms-3"></i>
               </div>
 
-              {/* Links on mobile */}
-              <div className="d-flex flex-column gap-3">
-                <a href="#" className="text-secondary fw-medium">Premium</a>
-                <a href="#" className="text-secondary fw-medium">Support</a>
-                <a href="#" className="text-secondary fw-medium">Download</a>
-                <a href="#" className="text-secondary fw-medium d-flex align-items-center">
+              {/* Mobile Links */}
+              <div className="d-flex flex-column gap-3 text-center">
+                <a href="#" className="text-secondary fw-medium py-2">Premium</a>
+                <a href="#" className="text-secondary fw-medium py-2">Support</a>
+                <a href="#" className="text-secondary fw-medium py-2">Download</a>
+                <a href="#" className="text-secondary fw-medium py-2 d-flex align-items-center justify-content-center">
                   <i className="far fa-circle-down me-2"></i>
                   Install app
                 </a>
-                <a href="/register" className="btn btn-outline-light rounded-pill mt-2">
-                  Logout
-                </a>
+
+                {/* Conditional Logout / Login */}
+                {isLoggedIn ? (
+                  <button
+                    className="btn btn-outline-light rounded-pill py-2 mt-2 fw-medium"
+                    onClick={handleLogout}
+                  >
+                    Logout
+                  </button>
+                ) : (
+                  <a
+                    href="/login"
+                    className="btn btn-outline-light rounded-pill py-2 mt-2 fw-medium"
+                  >
+                    Log in
+                  </a>
+                )}
               </div>
             </div>
           </div>
         </div>
       </nav>
 
-      {/* Custom styles */}
+      {/* Scoped Styles */}
       <style jsx>{`
         .spotify-logo {
           color: #1ed760 !important;
-          transition: transform 0.2s;
+          transition: transform 0.25s ease;
         }
         .spotify-logo:hover {
-          transform: scale(1.1);
+          transform: scale(1.12);
         }
 
         .searchbar {
-          background: #282828;
-          max-width: 500px;
-          width: 100%;
-          transition: all 0.2s;
+          background: rgba(40, 40, 40, 0.85);
+          max-width: 520px;
+          transition: all 0.25s ease;
         }
         .searchbar:hover {
-          background: #333;
+          background: rgba(60, 60, 60, 0.9);
         }
 
-        .premium-link,
-        .signup-link {
-          transition: color 0.2s, transform 0.2s;
+        .hover-link {
+          transition: color 0.2s ease, transform 0.2s ease;
         }
-        .premium-link:hover,
-        .signup-link:hover {
+        .hover-link:hover {
           color: white !important;
-          transform: translateY(-1px);
+          transform: translateY(-2px);
         }
 
-        .signup-btn {
-          background: white;
-          color: black !important;
-          font-weight: 600;
-          transition: all 0.25s;
+        .btn-outline-light {
+          transition: all 0.25s ease;
         }
-        .signup-btn:hover {
-          background: #f0f0f0;
-          transform: scale(1.05);
-        }
-
-        .social-icon:hover,
-        .install-app:hover {
-          color: white !important;
+        .btn-outline-light:hover {
+          background: rgba(255,255,255,0.15);
+          transform: translateY(-2px);
         }
 
         @media (max-width: 991px) {
           .search-container {
             display: none !important;
+          }
+        }
+
+        @media (max-width: 576px) {
+          nav {
+            padding: 0.6rem 1rem !important;
           }
         }
       `}</style>

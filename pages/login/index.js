@@ -1,3 +1,4 @@
+// pages/login/index.js
 import { useState } from "react";
 import { useRouter } from "next/router";
 import Head from "next/head";
@@ -35,9 +36,9 @@ export default function Login() {
         return;
       }
 
-      // In real app → use supabase.auth or secure session management
-      console.log("Logged in:", data.email);
-      router.push("/dashboard");
+      // Save user session (simple for now — later use supabase.auth)
+      localStorage.setItem("user", JSON.stringify({ email: data.email }));
+      router.push("/");
     } catch (err) {
       setError("Login failed. Please try again.");
     } finally {
@@ -49,6 +50,7 @@ export default function Login() {
     <>
       <Head>
         <title>Sign In - Music Hub</title>
+        <meta name="description" content="Login to your Music Hub account" />
         <link
           href="https://cdn.jsdelivr.net/npm/bootstrap@5.3.3/dist/css/bootstrap.min.css"
           rel="stylesheet"
@@ -64,25 +66,29 @@ export default function Login() {
       <div
         className="min-vh-100 d-flex align-items-center justify-content-center px-3 py-5"
         style={{
-          background: "url('/bg.jpg') center/cover no-repeat fixed;",
+          backgroundImage: `url('/bg.jpg')`,
+          backgroundSize: "cover",
+          backgroundPosition: "center",
+          backgroundRepeat: "no-repeat",
+          backgroundAttachment: "fixed",
         }}
       >
         <div className="w-100" style={{ maxWidth: "420px" }}>
           <div
-            className="rounded-4 shadow-xl overflow-hidden border-0"
+            className="rounded-4 shadow-lg overflow-hidden border-0"
             style={{
-              background: "rgba(20, 20, 50, 0.28)",
-              backdropFilter: "blur(32px) saturate(240%)",
-              WebkitBackdropFilter: "blur(32px) saturate(240%)",
-              border: "1px solid rgba(140, 140, 255, 0.14)",
-              boxShadow: "0 25px 80px rgba(0,0,0,0.75)",
+              background: "rgba(20, 20, 50, 0.38)",
+              backdropFilter: "blur(28px) saturate(220%)",
+              WebkitBackdropFilter: "blur(28px) saturate(220%)",
+              border: "1px solid rgba(140, 140, 255, 0.18)",
+              boxShadow: "0 20px 70px rgba(0,0,0,0.75)",
             }}
           >
-            <div className="p-4 p-md-5">
+            <div className="p-5">
               <h3
                 className="text-center fw-bold mb-4"
                 style={{
-                  background: "linear-gradient(90deg, #e0e0ff, #c0c0ff)",
+                  background: "linear-gradient(90deg, #e0e0ff, #ffffff)",
                   WebkitBackgroundClip: "text",
                   WebkitTextFillColor: "transparent",
                   fontSize: "2rem",
@@ -105,8 +111,8 @@ export default function Login() {
                   value={email}
                   onChange={(e) => setEmail(e.target.value)}
                   style={{
-                    background: "rgba(40,40,70,0.55)",
-                    border: "1px solid rgba(130,130,255,0.35)",
+                    background: "rgba(40,40,70,0.6)",
+                    border: "1px solid rgba(130,130,255,0.4)",
                     height: "52px",
                   }}
                 />
@@ -120,8 +126,8 @@ export default function Login() {
                   value={password}
                   onChange={(e) => setPassword(e.target.value)}
                   style={{
-                    background: "rgba(40,40,70,0.55)",
-                    border: "1px solid rgba(130,130,255,0.35)",
+                    background: "rgba(40,40,70,0.6)",
+                    border: "1px solid rgba(130,130,255,0.4)",
                     height: "52px",
                   }}
                 />
@@ -150,7 +156,7 @@ export default function Login() {
                 {loading ? (
                   <>
                     <span className="spinner-border spinner-border-sm me-2"></span>
-                    Signing in....
+                    Signing in...
                   </>
                 ) : (
                   "Sign In"
