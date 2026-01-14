@@ -126,7 +126,7 @@ export default function Login() {
                   }}
                 />
                 <button
-                  className="btn position-absolute top-50 end-0 translate-middle-y pe-4 bg-transparent border-0"
+                  className="btn position-absolute top-0 end-0 translate-middle-y pe-4 bg-transparent border-0"
                   type="button"
                   onClick={() => setShowPassword(!showPassword)}
                 >

@@ -1,20 +1,54 @@
-// app/page.tsx
+// pages/index.js
 
+import { useEffect, useState } from 'react';
+import { useRouter } from 'next/router';
 import Head from 'next/head';
 import Header from './components/Header';
+import Footer from './components/Footer';
 
 export default function Home() {
+  const router = useRouter();
+  const [isAuthenticated, setIsAuthenticated] = useState(false);
+  const [loading, setLoading] = useState(true);
+
+  useEffect(() => {
+    // Check if user is logged in (from your login logic)
+    const user = localStorage.getItem('user');
+
+    if (!user) {
+      // Not logged in → redirect to login
+      router.replace('/login');
+    } else {
+      // Logged in → show content
+      setIsAuthenticated(true);
+    }
+
+    setLoading(false);
+  }, [router]);
+
+  // Show loading spinner while checking auth
+  if (loading) {
+    return (
+      <div className="vh-100 d-flex align-items-center justify-content-center bg-black">
+        <div className="spinner-border text-success" role="status" style={{ width: '3rem', height: '3rem' }}>
+          <span className="visually-hidden">Loading...</span>
+        </div>
+      </div>
+    );
+  }
+
+  // If not authenticated → this won't render (redirect already happened)
+  if (!isAuthenticated) {
+    return null;
+  }
+
   return (
     <>
       <Head>
         <meta charSet="UTF-8" />
         <meta name="viewport" content="width=device-width, initial-scale=1.0" />
-        <title>spotify By Laiqa Qamar</title>
+        <title>Spotify By Laiqa Qamar</title>
 
-        {/* Your custom stylesheet – make sure style.css exists in public/ or use module css */}
-        {/* <link rel="stylesheet" href="/style.css" /> */}
-
-        {/* Font Awesome – version 6.5.2 (latest stable as of now) */}
         <link
           rel="stylesheet"
           href="https://cdnjs.cloudflare.com/ajax/libs/font-awesome/6.5.2/css/all.min.css"
@@ -27,6 +61,7 @@ export default function Home() {
       <Header />
 
       <div className="all">
+        {/* Sidebar */}
         <div className="sidebar">
           <div className="one">
             <div className="lib">your library</div>
@@ -61,12 +96,13 @@ export default function Home() {
               <a href="#">Accessibility</a>
 
               <div className="btn">
-                <i className="fa-solid fa-globe"></i>English
+                <i className="fa-solid fa-globe"></i> English
               </div>
             </div>
           </div>
         </div>
 
+        {/* Main Content */}
         <div className="maincontent">
           <div className="divone">
             <h2 className="trend">Trending songs</h2>
@@ -75,100 +111,72 @@ export default function Home() {
 
           <div className="songs">
             <div className="block">
-              <img src="regardless.webp" alt="song1" className="imgc" />
+              <img src="/regardless.webp" alt="Regardless" className="imgc" />
               <div className="play-button">▶</div>
               <div className="line">
-                <a href="#" className="laneone">
-                  Regardless
-                </a>
+                <a href="#" className="laneone">Regardless</a>
                 <br />
-                <a href="#" className="lanetwo">
-                  Asim Azhar
-                </a>
+                <a href="#" className="lanetwo">Asim Azhar</a>
               </div>
             </div>
 
             <div className="block">
-              <img src="saiyaara.webp" alt="song1" className="imgc" />
+              <img src="/saiyaara.webp" alt="Saiyara" className="imgc" />
               <div className="play-button">▶</div>
               <div className="line">
-                <a href="#" className="laneone">
-                  Saiyara
-                </a>
+                <a href="#" className="laneone">Saiyara</a>
                 <br />
-                <a href="#" className="lanetwo">
-                  krish kapoor
-                </a>
+                <a href="#" className="lanetwo">krish kapoor</a>
               </div>
             </div>
 
             <div className="block">
-              <img src="tum ho toh.webp" alt="song1" className="imgc" />
+              <img src="/tum ho toh.webp" alt="Tum Ho Toh" className="imgc" />
               <div className="play-button">▶</div>
               <div className="line">
-                <a href="#" className="laneone">
-                  Tum Ho Toh
-                </a>
+                <a href="#" className="laneone">Tum Ho Toh</a>
                 <br />
-                <a href="#" className="lanetwo">
-                  vishal
-                </a>
+                <a href="#" className="lanetwo">vishal</a>
               </div>
             </div>
 
             <div className="block">
-              <img src="barbaad.webp" alt="song1" className="imgc" />
+              <img src="/barbaad.webp" alt="Barbaad" className="imgc" />
               <div className="play-button">▶</div>
               <div className="line">
-                <a href="#" className="laneone">
-                  Barbaad
-                </a>
+                <a href="#" className="laneone">Barbaad</a>
                 <br />
-                <a href="#" className="lanetwo">
-                  julien
-                </a>
+                <a href="#" className="lanetwo">julien</a>
               </div>
             </div>
 
             <div className="block">
-              <img src="takeiteasy.webp" alt="song1" className="imgc" />
+              <img src="/takeiteasy.webp" alt="Take it Easy" className="imgc" />
               <div className="play-button">▶</div>
               <div className="line">
-                <a href="#" className="laneone">
-                  Take it Easy
-                </a>
+                <a href="#" className="laneone">Take it Easy</a>
                 <br />
-                <a href="#" className="lanetwo">
-                  Karan Aujla
-                </a>
+                <a href="#" className="lanetwo">Karan Aujla</a>
               </div>
             </div>
 
             <div className="block">
-              <img src="exes.webp" alt="song1" className="imgc" />
+              <img src="/exes.webp" alt="Exes" className="imgc" />
               <div className="play-button">▶</div>
               <div className="line">
-                <a href="#" className="laneone">
-                  Exes
-                </a>
+                <a href="#" className="laneone">Exes</a>
                 <br />
-                <a href="#" className="lanetwo">
-                  Hassan Rahem
-                </a>
+                <a href="#" className="lanetwo">Hassan Rahem</a>
               </div>
             </div>
 
             <div className="block">
-              <img src="arz kiya hy.webp" alt="song1" className="imgc" />
+              <img src="/arz kiya hy.webp" alt="Arz Kia Hy" className="imgc" />
               <div className="play-button">▶</div>
               <div className="line">
-                <a href="#" className="laneone">
-                  Arz Kia Hy
-                </a>
+                <a href="#" className="laneone">Arz Kia Hy</a>
                 <br />
-                <a href="#" className="lanetwo">
-                  Coke Studio
-                </a>
+                <a href="#" className="lanetwo">Coke Studio</a>
               </div>
             </div>
           </div>
@@ -180,100 +188,72 @@ export default function Home() {
 
           <div className="artist">
             <div className="block">
-              <img src="atif aslam.webp" alt="song1" className="imeg" />
+              <img src="/atif aslam.webp" alt="Atif Aslam" className="imeg" />
               <div className="play-button">▶</div>
               <div className="line">
-                <a href="#" className="laneone">
-                  Atif Aslam
-                </a>
+                <a href="#" className="laneone">Atif Aslam</a>
                 <br />
-                <a href="#" className="lanetwo">
-                  Artist
-                </a>
+                <a href="#" className="lanetwo">Artist</a>
               </div>
             </div>
 
             <div className="block">
-              <img src="ap dhillon.webp" alt="song1" className="imeg" />
+              <img src="/ap dhillon.webp" alt="AP Dhillon" className="imeg" />
               <div className="play-button">▶</div>
               <div className="line">
-                <a href="#" className="laneone">
-                  AP Dhillon
-                </a>
+                <a href="#" className="laneone">AP Dhillon</a>
                 <br />
-                <a href="#" className="lanetwo">
-                  Artist
-                </a>
+                <a href="#" className="lanetwo">Artist</a>
               </div>
             </div>
 
             <div className="block">
-              <img src="karan aujla.webp" alt="song1" className="imeg" />
+              <img src="/karan aujla.webp" alt="Karan Aujla" className="imeg" />
               <div className="play-button">▶</div>
               <div className="line">
-                <a href="#" className="laneone">
-                  Karan Aujla
-                </a>
+                <a href="#" className="laneone">Karan Aujla</a>
                 <br />
-                <a href="#" className="lanetwo">
-                  Artist
-                </a>
+                <a href="#" className="lanetwo">Artist</a>
               </div>
             </div>
 
             <div className="block">
-              <img src="parmish verma.webp" alt="song1" className="imeg" />
+              <img src="/parmish verma.webp" alt="Parmish Verma" className="imeg" />
               <div className="play-button">▶</div>
               <div className="line">
-                <a href="#" className="laneone">
-                  Parmish Verma
-                </a>
+                <a href="#" className="laneone">Parmish Verma</a>
                 <br />
-                <a href="#" className="lanetwo">
-                  Artist
-                </a>
+                <a href="#" className="lanetwo">Artist</a>
               </div>
             </div>
 
             <div className="block">
-              <img src="nehaal.webp" alt="song1" className="imeg" />
+              <img src="/nehaal.webp" alt="Nehaal Naseem" className="imeg" />
               <div className="play-button">▶</div>
               <div className="line">
-                <a href="#" className="laneone">
-                  Nehaal Naseem
-                </a>
+                <a href="#" className="laneone">Nehaal Naseem</a>
                 <br />
-                <a href="#" className="lanetwo">
-                  Artist
-                </a>
+                <a href="#" className="lanetwo">Artist</a>
               </div>
             </div>
 
             <div className="block">
-              <img src="aima.webp" alt="song1" className="imeg" />
+              <img src="/aima.webp" alt="Aima Baig" className="imeg" />
               <div className="play-button">▶</div>
               <div className="line">
-                <a href="#" className="laneone">
-                  Aima Baig
-                </a>
+                <a href="#" className="laneone">Aima Baig</a>
                 <br />
-                <a href="#" className="lanetwo">
-                  Artist
-                </a>
+                <a href="#" className="lanetwo">Artist</a>
               </div>
             </div>
 
             <div className="block">
-              <img src="ali zafar.webp" alt="song1" className="imeg" />
+              <img src="/ali zafar.webp" alt="Ali Zafar" className="imeg" />
               <div className="play-button">▶</div>
               <div className="line">
-                <a href="#" className="laneone">
-                  Ali zafar
-                </a>
+                <a href="#" className="laneone">Ali zafar</a>
                 <br />
-                <a href="#" className="lanetwo">
-                  Artist
-                </a>
+                <a href="#" className="lanetwo">Artist</a>
               </div>
             </div>
           </div>
@@ -285,154 +265,79 @@ export default function Home() {
 
           <div className="album">
             <div className="block">
-              <img src="jhol.webp" alt="song1" className="imgc" />
+              <img src="/jhol.webp" alt="JHOL" className="imgc" />
               <div className="play-button">▶</div>
               <div className="line">
-                <a href="#" className="laneone">
-                  JHOL
-                </a>
+                <a href="#" className="laneone">JHOL</a>
                 <br />
-                <a href="#" className="lanetwo">
-                  maanu,anural khalid
-                </a>
+                <a href="#" className="lanetwo">maanu, anural khalid</a>
               </div>
             </div>
 
             <div className="block">
-              <img src="okay stfu.webp" alt="song1" className="imgc" />
+              <img src="/okay stfu.webp" alt="OKAY STFU" className="imgc" />
               <div className="play-button">▶</div>
               <div className="line">
-                <a href="#" className="laneone">
-                  OKAY STFU
-                </a>
+                <a href="#" className="laneone">OKAY STFU</a>
                 <br />
-                <a href="#" className="lanetwo">
-                  Ap Dhillon
-                </a>
+                <a href="#" className="lanetwo">Ap Dhillon</a>
               </div>
             </div>
 
             <div className="block">
-              <img src="making memories.webp" alt="song1" className="imgc" />
+              <img src="/making memories.webp" alt="Making Memories" className="imgc" />
               <div className="play-button">▶</div>
               <div className="line">
-                <a href="#" className="laneone">
-                  Making Memories
-                </a>
+                <a href="#" className="laneone">Making Memories</a>
                 <br />
-                <a href="#" className="lanetwo">
-                  Karan Aujla
-                </a>
+                <a href="#" className="lanetwo">Karan Aujla</a>
               </div>
             </div>
 
             <div className="block">
-              <img src="pal pal.webp" alt="song1" className="imgc" />
+              <img src="/pal pal.webp" alt="PalPal" className="imgc" />
               <div className="play-button">▶</div>
               <div className="line">
-                <a href="#" className="laneone">
-                  PalPal
-                </a>
+                <a href="#" className="laneone">PalPal</a>
                 <br />
-                <a href="#" className="lanetwo">
-                  Alisoomromusic
-                </a>
+                <a href="#" className="lanetwo">Alisoomromusic</a>
               </div>
             </div>
 
             <div className="block">
-              <img src="afsoos.webp" alt="song1" className="imgc" />
+              <img src="/afsoos.webp" alt="Afsoos" className="imgc" />
               <div className="play-button">▶</div>
               <div className="line">
-                <a href="#" className="laneone">
-                  Afsoos
-                </a>
+                <a href="#" className="laneone">Afsoos</a>
                 <br />
-                <a href="#" className="lanetwo">
-                  Anuv jain,Ap Dhillon
-                </a>
+                <a href="#" className="lanetwo">Anuv jain, Ap Dhillon</a>
               </div>
             </div>
 
             <div className="block">
-              <img src="sicario.webp" alt="song1" className="imgc" />
+              <img src="/sicario.webp" alt="Sicario" className="imgc" />
               <div className="play-button">▶</div>
               <div className="line">
-                <a href="#" className="laneone">
-                  Sicario
-                </a>
+                <a href="#" className="laneone">Sicario</a>
                 <br />
-                <a href="#" className="lanetwo">
-                  Shubh
-                </a>
+                <a href="#" className="lanetwo">Shubh</a>
               </div>
             </div>
 
             <div className="block">
-              <img src="safar.webp" alt="song1" className="imgc" />
+              <img src="/safar.webp" alt="Safar" className="imgc" />
               <div className="play-button">▶</div>
               <div className="line">
-                <a href="#" className="laneone">
-                  Safar
-                </a>
+                <a href="#" className="laneone">Safar</a>
                 <br />
-                <a href="#" className="lanetwo">
-                  bayan
-                </a>
+                <a href="#" className="lanetwo">bayan</a>
               </div>
             </div>
           </div>
-
-          <footer>
-            <div className="footer-col">
-              <h4>Company</h4>
-              <a href="#">About</a>
-              <a href="#">Jobs</a>
-              <a href="#">For the Record</a>
-            </div>
-
-            <div className="footer-col">
-              <h4>Communities</h4>
-              <a href="#">For Artists</a>
-              <a href="#">Developers</a>
-              <a href="#">Advertising</a>
-              <a href="#">Investors</a>
-              <a href="#">Vendors</a>
-            </div>
-
-            <div className="footer-col">
-              <h4>Useful links</h4>
-              <a href="#">Support</a>
-              <a href="#">Free Mobile App</a>
-              <a href="#">Popular by Country</a>
-              <a href="#">Import your music</a>
-            </div>
-
-            <div className="footer-col">
-              <h4>Spotify Plans</h4>
-              <a href="#">Premium Individual</a>
-              <a href="#">Premium Duo</a>
-              <a href="#">Premium Family</a>
-              <a href="#">Premium Student</a>
-              <a href="#">Spotify Free</a>
-            </div>
-
-            <div className="social-links">
-              <a href="#">
-                <i className="fab fa-instagram"></i>
-              </a>
-              <a href="#">
-                <i className="fab fa-twitter"></i>
-              </a>
-              <a href="#">
-                <i className="fab fa-facebook-f"></i>
-              </a>
-            </div>
-
-            <div className="lastfoot">© 2025 Spotify AB</div>
-          </footer>
         </div>
       </div>
+
+      <Footer />
     </>
   );
 }
